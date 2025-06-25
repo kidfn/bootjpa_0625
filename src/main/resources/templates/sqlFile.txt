@@ -1,0 +1,26 @@
+boot JPA
+
+- boot-devtool
+- lombok
+- configuration-processor
+- boot-starter-web
+- thymeleaf
+- thymeleaf-layout
+- mysql-connector-j
+- data-jpa
+- log4jdbc
+
+log4jdbc.log4j2.properties
+log4jdbc.spylogdelegator.name=net.sf.log4jdbc.log.slf4j.Slf4jSpyLogDelegator
+
+logback.xml 설정
+
+- DB: bootdb2
+- user: springuser
+- password: mysql
+
+- 유저에게 DB의 사용 권한 부여
+
+create database bootdb2;
+grant all privileges on bootdb2.*to'springuser'@'localhost';
+flush privileges;

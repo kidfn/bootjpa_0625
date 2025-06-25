@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http:/www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{layout/layout}">
+
+<div class="container-md" layout:fragment="content">
+    <h1>NO.[[${boardDTO.bno}]] Page</h1>
+
+    <form action="/board/update" method="post" id="modForm">
+        <input type="hidden" name="bno" th:value="${boardDTO.bno}">
+        <div class="mb-3">
+            <label for="t" class="form-label">title</label>
+            <input type="text" class="form-control"
+                   name="title" th:value="${boardDTO.title}" id="t" readonly>
+        </div>
+        <div class="mb-3">
+            <label for="w" class="form-label">writer</label>
+            <input type="text" class="form-control"
+                   name="writer" th:value="${boardDTO.writer}" id="w" readonly>
+        </div>
+        <div class="mb-3">
+            <label for="r" class="form-label">regDate</label>
+            <input type="text" class="form-control" th:value="${boardDTO.regDate}" id="r" readonly>
+        </div>
+        <div class="mb-3">
+            <label for="m" class="form-label">modDate</label>
+            <input type="text" class="form-control"  th:value="${boardDTO.modDate}" id="m" readonly>
+        </div>
+        <div class="mb-3">
+            <label for="c" class="form-label">content</label>
+            <textarea type="text" class="form-control"
+                      name="content" id="c" cols="30" rows="10" readonly>[[${boardDTO.content}]]</textarea>
+        </div>
+        <button type="button" id="listBtn" class="btn btn-primary">List</button>
+        <button type="button" id="modBtn" class="btn btn-warning">Modify</button>
+        <button type="button" id="delBtn" class="btn btn-danger">Remove</button>
+    </form>
+
+    <script th:inline="javascript">
+        let bnoValue = [[${boardDTO.bno}]];
+    </script>
+    <script th:src="@{/js/BoardDetail.js}"></script>
+
+</div>

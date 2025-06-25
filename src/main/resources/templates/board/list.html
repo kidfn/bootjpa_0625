@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layout}">
+
+<div class="container-md" layout:fragment="content">
+  <table class="table">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Title</th>
+      <th scope="col">Writer</th>
+      <th scope="col">reg_date</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr th:each="bvo:${list}">
+      <th scope="row">[[${bvo.bno}]]</th>
+      <td><a th:href="@{/board/detail(bno=${bvo.bno})}">[[${bvo.title}]]</a></td>
+      <td>[[${bvo.writer}]]</td>
+      <td>[[${bvo.regDate}]]</td>
+    </tr>
+  </tbody>
+</table>
+  <a th:href="@{/}"><button type="button" class="btn btn-primary">index</button></a>
+
+  <!--페이지네이션-->
+  <!--/* ${} JSP EL 방식 => 타임리프 th: / 인라인방식 [[${}]] */-->
+  <!--/* disabled  class에 추가하는 방식으로 <<  >>  */-->
+  <!--/* th:classappend : 동적 클래스 추가 */-->
+
+  <nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center">
+      <li class="page-item" th:classappend="${ph.hasPrev eq false ? 'disabled' : ''}">
+        <a class="page-link" th:href="@{/board/list(pageNo=${ph.startPage-1})}" aria-label="Previous">
+          <span aria-hidden="true">&laquo;</span>
+        </a>
+      </li>
+      <!--/* begin end 옵션이 없음. ${#numbers.sequence(from, to)} */-->
+      <th:block th:each="i:${#numbers.sequence(ph.startPage, ph.endPage)}">
+        <li class="page-item" th:classappend="${ph.pageNo eq i ? 'active' : ''}">
+          <a class="page-link" th:href="@{/board/list(pageNo=${i})}">[[${i}]]</a>
+        </li>
+      </th:block>
+
+      <li class="page-item" th:classappend="${ph.hasNext eq false ? 'disabled' : ''}">
+        <a class="page-link" th:href="@{/board/list(pageNo=${ph.endPage+1})}" aria-label="Next">
+          <span aria-hidden="true">&raquo;</span>
+        </a>
+      </li>
+    </ul>
+  </nav>
+
+</div>
