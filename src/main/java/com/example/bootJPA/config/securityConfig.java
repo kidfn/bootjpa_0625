@@ -15,10 +15,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
 
 @EnableWebSecurity
 @Configuration
 public class securityConfig {
+
 
     @Bean
     PasswordEncoder passwordEncoder(){
@@ -27,6 +29,7 @@ public class securityConfig {
 
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+
         // csrf => disable() : 완성 후 풀기
         return http
 //                .csrf(csrf -> csrf.disable())

@@ -17,7 +17,6 @@ public class CustomErrorController implements ErrorController {
     public String handlerError(HttpServletRequest request){
         log.info(">>>> 1");
         Object status = request.getAttribute(RequestDispatcher.ERROR_EXCEPTION_TYPE);
-        log.info(">>>> status {}", status.toString());
         if(status != null){
             int statusCode = Integer.parseInt(status.toString());
             log.info(">>>> 2");
