@@ -34,6 +34,7 @@ public class BoardServiceImpl implements BoardService{
         // save() : 저장
         // entity 객체를 파라미터로 전송
         BoardDTO boardDTO = boardFileDTO.getBoardDTO();
+        boardDTO.setFileQty(boardFileDTO.getFileList().size());
         Long bno = boardRepository.save(convertDtoToEntity(boardDTO)).getBno();
         bno = fileSave(boardFileDTO.getFileList(), bno);
 
@@ -48,8 +49,14 @@ public class BoardServiceImpl implements BoardService{
         return bno;
     }
 
+    @Override
+    public Long insert(BoardDTO boardDTO) {
+        return boardRepository.save(convertDtoToEntity(boardDTO)).getBno();
+    }
+
     private long fileSave(List<FileDTO> fileList, long bno){
         if(bno > 0 && fileList != null){
+
             for(FileDTO fileDTO : fileList){
                 fileDTO.setBno(bno);
                 bno = fileRepository.save(convertDtoToEntity(fileDTO)).getBno();
@@ -116,6 +123,10 @@ public class BoardServiceImpl implements BoardService{
          * */
         Optional<Board> optional = boardRepository.findById(bno);
         if(optional.isPresent()) {
+            Board board = optional.get();
+            int count = board.getReadCount()+1;
+            board.setReadCount(count);
+            boardRepository.save(board);
             BoardDTO boardDTO = convertEntityToDto(optional.get());
             // file bno 에 일치하는 파일 리스트 가져오기
             List<File> fList = fileRepository.findByBno(bno);
@@ -139,6 +150,9 @@ public class BoardServiceImpl implements BoardService{
 
         board.setTitle(boardFileDTO.getBoardDTO().getTitle());
         board.setContent(boardFileDTO.getBoardDTO().getContent());
+        if(boardFileDTO.getFileList() != null){
+            board.setFileQty(board.getFileQty()+boardFileDTO.getFileList().size());
+        }
         long bno = fileSave(boardFileDTO.getFileList(), board.getBno());
 
         /*
@@ -164,6 +178,11 @@ public class BoardServiceImpl implements BoardService{
     public long fileRemove(String uuid) {
         Optional<File> file = fileRepository.findById(uuid);
         if(file.isPresent()){
+            Optional<Board> optional = boardRepository.findById(file.get().getBno());
+            if(optional.isPresent()){
+                Board board = optional.get();
+                board.setFileQty(board.getFileQty()-1);
+            }
             fileRepository.deleteById(uuid);
         }
         return file.get().getBno();

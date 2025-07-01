@@ -22,22 +22,22 @@ public class PagingHandler<T> {
     private String keyword;
     private List<T> list;
 
-    public PagingHandler(Page<T> list, int pageNo, String type, String keyword){
+    public PagingHandler(Page<T> list, int pageNo){
         this.list = list.getContent();
         this.pageNo = pageNo;
         this.totalPage = list.getTotalPages();
-        this.type = type;
-        this.keyword = keyword;
         this.totalCount = list.getTotalElements();
         this.endPage = (int)Math.ceil(this.pageNo / 10.0) * 10;
         this.startPage = endPage - 9;
 
-//        if(endPage > totalPage){
-//            endPage = totalPage;
-//        }
-
         this.endPage = (endPage > totalPage) ? totalPage : endPage;
         this.hasPrev = this.startPage > 10;
         this.hasNext = this.endPage < this.totalPage;
+    }
+
+    public PagingHandler(Page<T> list, int pageNo, String type, String keyword){
+        this(list, pageNo);
+        this.type = type;
+        this.keyword = keyword;
     }
 }

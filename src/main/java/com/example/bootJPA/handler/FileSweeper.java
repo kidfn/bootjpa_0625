@@ -31,11 +31,9 @@ public class FileSweeper {
     public void fileSweeper(){
         log.info(">>>>>>>> FileSweeper Running Start >> {}", LocalDateTime.now());
         // DB에 등록되어 있는 모든 파일 목록을 가져오기
-        List<File> dbList = fileRepository.findAll();
+        List<File> dbList = fileRepository.findAll();   
 
-        // 파일경로+파일명을 붙인 실제 파일 리스트 생성
-        // "D:\web_0226_omr\_myProject\_java\_fileUpload\2025\06\26\uuid_파일명"
-        // "D:\web_0226_omr\_myProject\_java\_fileUpload\2025\06\26\uuid_th_파일명"
+
         List<String> currFiles = new ArrayList<>();
         for(File fvo : dbList){
             String filePath = fvo.getSaveDir()+ java.io.File.separator
@@ -65,7 +63,7 @@ public class FileSweeper {
 
         // 두 목록 비교 후 DB에 없는 파일은 삭제
         for(java.io.File file : fileObject){
-            // "D:\web_0226_omr\_myProject\_java\_fileUpload\2025\06\26\uuid_파일명"
+
             String storedFileName = file.toPath().toString();
             if(!currFiles.contains(storedFileName)){
                 //삭제

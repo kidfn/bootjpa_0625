@@ -4,6 +4,7 @@ import com.example.bootJPA.entity.Board;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -12,6 +13,7 @@ import java.util.List;
 
 import static com.example.bootJPA.entity.QBoard.board;
 
+@Slf4j
 public class BoardCustomRepositoryImpl implements BoardCustomRepository{
 
     private final JPAQueryFactory queryFactory;
@@ -58,6 +60,7 @@ public class BoardCustomRepositoryImpl implements BoardCustomRepository{
                 }
             }
         }
+
         // 쿼리 작성 및 페이징 적용
         List<Board> result = queryFactory
                 .selectFrom(board)
@@ -66,7 +69,9 @@ public class BoardCustomRepositoryImpl implements BoardCustomRepository{
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
-
+        log.info(">>>> offset >> {}", pageable.getOffset());
+        log.info(">>>> condition >> {}", condition);
+        log.info(">>>> boardCustomRepositoryImpl >> {}", result);
         // 검색된 데이터의 전체 개수 조회
         long total = queryFactory
                 .selectFrom(board)
@@ -75,6 +80,4 @@ public class BoardCustomRepositoryImpl implements BoardCustomRepository{
 
         return new PageImpl<>(result, pageable, total);
     }
-
-
 }

@@ -15,5 +15,8 @@ public class BoardDTO {
     private String title;
     private String writer;
     private String content;
+    private int readCount;
+    private int cmtQty;
+    private int fileQty;
     private LocalDateTime regDate, modDate;
 }
