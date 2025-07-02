@@ -26,12 +26,10 @@ public class CommentController {
     @GetMapping("/list/{bno}/{page}")
     @ResponseBody
     public PagingHandler<CommentDTO> list(@PathVariable("bno") Long bno,
-                                          @PathVariable("page") int page){
-        // page = 0 부터
+                                          @PathVariable("page") int page){// page = 0 부터
         Page<CommentDTO> list = commentService.getList(bno, page-1);
         PagingHandler<CommentDTO> ph = new PagingHandler<>(list, page);
-        // page 없는 경우
-        //List<CommentDTO> list = commentService.getList(bno);
+
         return ph;
     }
 

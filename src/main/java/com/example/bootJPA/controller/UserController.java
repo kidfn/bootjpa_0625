@@ -39,14 +39,10 @@ public class UserController {
         return (email != null) ? "/index" : "/user/join";
     }
 
-//    @GetMapping("/login")
-//    public void login(){ }
+
 
     @GetMapping("/login")
-    public String login( HttpServletRequest request,
-//            @RequestParam(value = "email", required = false) String email,
-//            @RequestParam(value = "errmsg", required = false) String errmsg,
-                         Model model){
+    public String login( HttpServletRequest request, Model model){
 
         String email =(String)request.getSession().getAttribute("email");
         String errmsg =(String)request.getSession().getAttribute("errmsg");
@@ -62,17 +58,6 @@ public class UserController {
         return "/user/login";
     }
 
-//    @PostMapping("/login")
-//    public String login(HttpServletRequest request, RedirectAttributes re) {
-//        // 실제 로그인시에는 Security의 filter에서 가져감.
-//        // 로그인 실패시 다시 로그인 페이지로 돌아와 오류 메시지를 전송
-//        log.info(">>>> email >> {}", request.getAttribute("email").toString());
-//        log.info(">>>> errorMessage >> {}", request.getAttribute("errmsg"));
-//        re.addFlashAttribute("email", request.getAttribute("email"));
-//        re.addFlashAttribute("errmsg", request.getAttribute("errmsg"));
-//
-//        return "redirect:/user/login";
-//    }
 
     @GetMapping("/list")
     public void list(Model model){
